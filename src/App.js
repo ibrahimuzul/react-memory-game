@@ -1,25 +1,39 @@
-import logo from './logo.svg';
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import React, { Component } from 'react';
+import Game from './Components/Game';
+import GameMenu from './Components/GameMenu';
+
+class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      screen: 'GameMenu'//GameMenu,Game
+    };
+  }
+
+  handleSetScreen = (screenName) => {
+    this.setState({ screen: screenName });
+  }
+
+  render() {
+    if (this.state.screen=='GameMenu') {
+      return (
+        <div className='container'>
+            <GameMenu handleSetScreen={this.handleSetScreen} />
+        </div>
+      )
+    }
+    else{
+      return (
+        <div className='container'>
+            <Game />
+        </div>
+      )
+    }
+    
+  }
 }
+
 
 export default App;
