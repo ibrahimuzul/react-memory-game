@@ -25,7 +25,12 @@ export default class Game extends Component {
         }
     }
     handleAnswerFromButton(char){
-        this.setState({ answer: this.state.answer + char });
+        this.setState({ answer: this.state.answer + char },()=>{
+            if (this.state.answer == this.state.maxNumber) {
+                this.setState({ gameMode: 'Finish' });
+            }
+        });
+        
     }
 
     handleClearAnswer(){
@@ -41,8 +46,8 @@ export default class Game extends Component {
     }
 
     setRandom() {
-        const min = 100 * (this.state.level * 10);
-        const max = 999 * (this.state.level * 10);
+        const min = 100 * (this.state.level * 2);
+        const max = 999 * (this.state.level * 2);
         const newNumbers = [
             this.randomNumberInRange(min, max),
             this.randomNumberInRange(min, max),
@@ -58,7 +63,7 @@ export default class Game extends Component {
     componentDidMount() {
         this.setRandom();
         this.setState({ gameMode: 'Run' });
-        setInterval(this.tick, 500);
+        setInterval(this.tick, 1000);
     }
 
     tick = () => {
@@ -71,7 +76,7 @@ export default class Game extends Component {
             this.setState({ gameMode: 'Wait' });
         }
 
-        if (this.state.gameMode === 'Wait' && this.state.waitTime < 2) {
+        if (this.state.gameMode === 'Wait' && this.state.waitTime < 5) {
             this.setState({ waitTime: this.state.waitTime + 1 });
         }
         else if (this.state.gameMode === 'Wait') {
@@ -137,7 +142,7 @@ export default class Game extends Component {
                         {this.state.gameMode === 'Wait' ?
 
                             <div>
-                                Waiting  {2 - this.state.waitTime}
+                                Waiting  {5 - this.state.waitTime}
                             </div>
 
                             : ''}
